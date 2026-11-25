@@ -1,0 +1,35 @@
+# Apariencia de la intranet
+
+title: Intranet Tech
+subtitle: Centro de herramientas
+
+# Fondo de pantalla:
+#   animated  -> fondo tecnológico animado (red de nodos + grilla + brillo). Recomendado.
+#   una URL o ruta (ej: /config/fondo.jpg) -> foto de fondo con el efecto tech encima.
+background: animated
+
+# Color principal y secundario del tema (neón). Cualquier color CSS.
+accent: "#22d3ee"
+accent2: "#a78bfa"
+
+# Oscurecimiento sobre una foto de fondo (0 a 1). No se usa con "animated".
+overlay: 0.55
+
+# Logo (URL o ruta). Vacío = se muestra el título en texto
+logo: /config/logo.svg
+
+# Barra superior para avisos. Vacía = oculta.
+announcement: "Nuevo: ahora podés cargar enlaces desde Telegram"
+# announcement_href: https://...
+
+# Cómo se abren los sitios por defecto (_blank = pestaña nueva)
+target: _blank
+
+# Saludo, fecha y reloj en el encabezado (true / false)
+greeting: true
+
+# Pie de página
+footer_text: "Accesos rápidos a sistemas, herramientas y documentación."
+footer: "Uso interno"
+footer_links:
+  - GitHub: https://github.com

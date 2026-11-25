@@ -1,0 +1,49 @@
+# Pensado para Portainer: Stacks > Add stack > Repository.
+# Las claves y el token NO van acá: se cargan en "Environment variables" del stack
+# (o en un archivo .env si lo levantás con docker compose).
+services:
+  intranet:
+    build: .
+    image: intranet-tech-web:latest
+    container_name: intranet-tech
+    restart: unless-stopped
+    ports:
+      - "${PORT:-8091}:80"
+    depends_on:
+      - intranet-api
+    volumes:
+      - intranet-config:/usr/share/nginx/html/config
+
+  intranet-api:
+    build:
+      context: .
+      dockerfile: api/Dockerfile
+    image: intranet-tech-api:latest
+    container_name: intranet-tech-api
+    restart: unless-stopped
+    environment:
+      ADMIN_PIN: "${ADMIN_PIN:?Falta ADMIN_PIN en las variables del stack}"
+      AREA_PINS: "${AREA_PINS:-}"
+    volumes:
+      - intranet-config:/data
+      - intranet-backups:/backups
+
+  telegram-bot:
+    build:
+      context: .
+      dockerfile: bot/Dockerfile
+    image: intranet-tech-bot:latest
+    container_name: intranet-tech-bot
+    restart: unless-stopped
+    depends_on:
+      - intranet-api
+    environment:
+      TELEGRAM_TOKEN: "${TELEGRAM_TOKEN:-}"
+      TELEGRAM_ALLOWED_IDS: "${TELEGRAM_ALLOWED_IDS:-}"
+      API_URL: http://intranet-api:8000
+      API_PIN: "${ADMIN_PIN}"
+      INTRANET_URL: "${INTRANET_URL:-}"
+
+volumes:
+  intranet-config:
+  intranet-backups:

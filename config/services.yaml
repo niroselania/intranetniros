@@ -1,0 +1,39 @@
+# Intranet - sitios por área
+# Este archivo se puede editar a mano, desde la web (botón "Editar") o desde Telegram.
+#
+# - NOMBRE DEL ÁREA:
+#     - Nombre del sitio:
+#         href: http://direccion-del-sitio
+#         description: Texto corto     # opcional
+#         icon: "📦"                    # opcional (un emoji)
+#         target: _blank               # opcional (_self = misma pestaña)
+
+- SISTEMAS:
+    - Portainer:
+        href: http://192.168.1.10:9000/
+        description: Contenedores Docker
+        icon: "🐳"
+    - Router:
+        href: http://192.168.1.1/
+        description: Red y Wi-Fi
+        icon: "📡"
+
+- DESARROLLO:
+    - GitHub:
+        href: https://github.com
+        description: Repositorios
+        icon: "💻"
+    - Stack Overflow:
+        href: https://stackoverflow.com
+        icon: "🧩"
+
+- IA:
+    - Microsoft Copilot:
+        href: https://copilot.microsoft.com
+        description: Asistente de IA
+        icon: "🤖"
+
+- DOCUMENTACIÓN:
+    - MDN Web Docs:
+        href: https://developer.mozilla.org/es/
+        icon: "📚"
