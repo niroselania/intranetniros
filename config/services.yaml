@@ -13,9 +13,9 @@
         href: http://192.168.1.95:8086/
         description: Metricas Patagonia
         icon: "🐳"
-    - Router:
-        href: http://192.168.1.1/
-        description: Red y Wi-Fi
+    - Stock Patagonia:
+        href: http://patagonia.serveftp.com:8085/
+        description: STOCK
         icon: "📡"
 
 - DESARROLLO:
