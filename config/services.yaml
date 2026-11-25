@@ -9,9 +9,9 @@
 #         target: _blank               # opcional (_self = misma pestaña)
 
 - SISTEMAS:
-    - Portainer:
-        href: http://192.168.1.10:9000/
-        description: Contenedores Docker
+    - Metricas Ventas:
+        href: http://192.168.1.95:8086/
+        description: Metricas Patagonia
         icon: "🐳"
     - Router:
         href: http://192.168.1.1/
