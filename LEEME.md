@@ -13,7 +13,7 @@ formato de `config/services.yaml`.
 
 1. Copiá `.env.example` como `.env` y completá las claves (ver abajo).
 2. Poné tus áreas y enlaces en `config/services.yaml` (el que viene es de ejemplo).
-   La primera vez se copia al volumen; después manda lo que se cargue desde la web o Telegram.
+   Si después lo cambiás en GitHub, se aplica al redeploy (ver `SERVICES_SYNC` en PORTAINER.md).
 3. `docker compose up -d --build`
 4. Abrí `http://IP-DEL-SERVIDOR:8091`
 

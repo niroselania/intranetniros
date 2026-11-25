@@ -36,6 +36,29 @@ Los nombres de contenedores y volúmenes también son distintos: pueden convivir
 
 Si algo no anda: Containers > `intranet-tech-bot` > **Logs**.
 
+## Cambiar cosas desde GitHub
+- `settings.yaml`, el logo y el código: se aplican siempre al hacer **Pull and redeploy**.
+- `services.yaml` (los enlaces) depende de la variable `SERVICES_SYNC`:
+  - `auto` (por defecto): si cambiaste `services.yaml` en GitHub, al redeploy se aplica el de GitHub.
+    Si no lo tocaste en GitHub, se conservan los enlaces cargados desde la web o Telegram.
+  - `off`: GitHub nunca pisa los enlaces (solo web / Telegram).
+  - `always`: cada redeploy pisa los enlaces con el de GitHub.
+  Antes de pisarlo se guarda un respaldo (`*-antes-de-github.yaml` en el volumen de respaldos).
+- **Ojo:** si cargaste enlaces desde la web o Telegram y después cambiás `services.yaml` en GitHub,
+  gana GitHub. Lo más simple: elegí un solo lugar para editar los enlaces.
+
+### Cómo aplicar un cambio
+1. Guardá (commit) el cambio en GitHub.
+2. Portainer > Stacks > intranet-tech > **Pull and redeploy** (o esperá el GitOps automático).
+   Parar el contenedor y volver a iniciarlo **no** descarga nada de GitHub.
+3. Verificá en Containers > `intranet-tech-api` > **Logs**. Tiene que decir
+   `services.yaml actualizado desde GitHub`.
+4. Recargá la web con Ctrl+F5.
+
+Si el log no muestra ese mensaje, Portainer reutilizó la imagen vieja sin reconstruirla:
+Images > borrá `intranet-tech-api:latest` y `intranet-tech-web:latest` (marcá *Force*) y
+volvé a hacer **Pull and redeploy**.
+
 ## Opción B: sin GitHub
 El editor web de Portainer ("Web editor") **no puede construir imágenes** (`build:` falla
 porque no tiene los archivos). Si no querés usar GitHub:
@@ -50,5 +73,4 @@ Cada vez que cambies código hay que repetir el paso 2.
 - Funciona en un entorno Docker "standalone" (lo normal). En Docker Swarm, Portainer no construye imágenes.
 - Tus enlaces viven en el volumen `intranet-tech_intranet-config`: no se pierden al actualizar el stack.
   Respaldos en `intranet-tech_intranet-backups`.
-- Para pasar los sitios de la intranet vieja: copiá su `services.yaml` dentro de `config/`
-  **antes del primer deploy** (después manda lo que cargues desde la web o Telegram).
+- Para pasar los sitios de la intranet vieja: copiá su `services.yaml` dentro de `config/` y subilo a GitHub.

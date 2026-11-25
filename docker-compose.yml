@@ -24,6 +24,8 @@ services:
     environment:
       ADMIN_PIN: "${ADMIN_PIN:?Falta ADMIN_PIN en las variables del stack}"
       AREA_PINS: "${AREA_PINS:-}"
+      # auto = si cambiás services.yaml en GitHub se aplica al redeploy; off = solo web/Telegram
+      SERVICES_SYNC: "${SERVICES_SYNC:-auto}"
     volumes:
       - intranet-config:/data
       - intranet-backups:/backups

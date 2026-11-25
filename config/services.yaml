@@ -9,9 +9,9 @@
 #         target: _blank               # opcional (_self = misma pestaña)
 
 - SISTEMAS:
-    - Metricas ventas:
-        href: http://patagonia.serveftp.com:8086/
-        description: Metricas Patagonia
+    - Portainer:
+        href: http://192.168.1.10:9000/
+        description: Contenedores Docker
         icon: "🐳"
     - Router:
         href: http://192.168.1.1/

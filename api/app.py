@@ -50,14 +50,58 @@ class ApiError(Exception):
 
 
 # ---------- archivo ----------
+def _sha(path):
+    import hashlib
+    with open(path, "rb") as fh:
+        return hashlib.sha256(fh.read()).hexdigest()
+
+
 def seed():
+    """Copia la configuración del repositorio (imagen) al volumen.
+
+    - settings.yaml, logos, etc.: siempre se actualizan desde GitHub (no se editan desde la web).
+    - services.yaml depende de SERVICES_SYNC:
+        auto   (por defecto) se aplica el de GitHub solo si cambió desde el último deploy;
+               si no cambió, se conserva lo cargado desde la web o Telegram.
+        always se pisa siempre con el de GitHub en cada deploy.
+        off    nunca se toca (solo web / Telegram / edición a mano).
+      Antes de pisarlo se guarda un respaldo en /backups.
+    """
     os.makedirs(CONFIG_DIR, exist_ok=True)
     os.makedirs(BACKUP_DIR, exist_ok=True)
-    if os.path.isdir(SEED_DIR):
-        for f in os.listdir(SEED_DIR):
-            dst = os.path.join(CONFIG_DIR, f)
-            if not os.path.exists(dst):
-                shutil.copy2(os.path.join(SEED_DIR, f), dst)
+    if not os.path.isdir(SEED_DIR):
+        return
+    mode = os.environ.get("SERVICES_SYNC", "auto").strip().lower()
+    for f in os.listdir(SEED_DIR):
+        src, dst = os.path.join(SEED_DIR, f), os.path.join(CONFIG_DIR, f)
+        if not os.path.isfile(src):
+            continue
+        if f != "services.yaml":
+            if not os.path.exists(dst) or _sha(src) != _sha(dst):
+                shutil.copy2(src, dst)
+                print("Actualizado desde GitHub:", f, flush=True)
+            continue
+        marker = os.path.join(CONFIG_DIR, ".services-github.sha")
+        new_hash = _sha(src)
+        old_hash = open(marker).read().strip() if os.path.exists(marker) else None
+        if not os.path.exists(dst):
+            apply = True
+        elif mode == "always":
+            apply = _sha(dst) != new_hash
+        elif mode == "auto":
+            apply = new_hash != old_hash and _sha(dst) != new_hash
+        else:
+            apply = False
+        if apply:
+            if os.path.exists(dst):
+                stamp = datetime.now().strftime("%Y%m%d-%H%M%S-%f")
+                shutil.copy2(dst, os.path.join(BACKUP_DIR, f"services-{stamp}-antes-de-github.yaml"))
+            shutil.copy2(src, dst)
+            print("services.yaml actualizado desde GitHub (modo %s)" % mode, flush=True)
+        else:
+            print("services.yaml: se conserva el del volumen (modo %s, GitHub sin cambios)" % mode, flush=True)
+        with open(marker, "w") as fh:
+            fh.write(new_hash)
 
 
 def load():

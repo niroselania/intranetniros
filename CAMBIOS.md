@@ -6,3 +6,4 @@
 - API: nuevo `GET /api/services` (lectura) que usa el bot.
 - Claves y token movidos a `.env` (antes estaban escritos en docker-compose.yml).
 - Se quitaron los archivos duplicados de la raíz (logo.png, services.yaml, settings.yaml, js-yaml.min.js).
+- Los cambios hechos en GitHub (settings.yaml, logo y services.yaml) ahora se aplican al redeploy (`SERVICES_SYNC`).
