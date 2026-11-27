@@ -17,6 +17,10 @@
         href: http://patagonia.serveftp.com:8085/
         description: STOCK
         icon: "📡"
+    - Relaxit New:
+        href: http://patagonia.serveftp.com:8001/
+        description: STOCK
+        icon: "📦"
 
 - DESARROLLO:
     - GitHub:
